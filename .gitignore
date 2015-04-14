@@ -1,4 +1,6 @@
 # VIM temporary files
 *~
 
-CST_250_Final_Project.plp
+*.plp
+*.pdf
+
