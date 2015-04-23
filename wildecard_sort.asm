@@ -36,11 +36,13 @@ arrayC:
 	nop	
 	addiu $t4, $t4, 1		# increment count by 1
 
-	lw $t1, 0($a0)		# get first number
+	lw $t1, 0($a0)		# get comparing number
 	addiu $a0, $a0, 4
 	
-	push $ra
-	call compare
+#	push $ra
+#	call compare
+#	pop $ra
+	j compare
 	nop
 	
 	j get_small_LARGE_elements
@@ -63,13 +65,14 @@ arrayC:
 			beq $t4, $t5 first
 			nop
 			
+			pop $v0
 			pop $v1
+
 			slt $t3, $t1 $v1			#compare
 			push $v1
 			beq $t3, $0, change_maximum 	#jump if $t1 < $v1
 			nop
 
-			pop $v0
 			slt $t3, $t1, $v0			#compare
 			push $v0 	
 			bne $t3, $0, change_minimum 	#jump if $t1 > $v0
@@ -77,8 +80,7 @@ arrayC:
 		
 			compareReturn:
 		
-			pop $ra
-			return
+			j get_small_LARGE_elements
 			nop
 		#================	occurs once=========	#
 			first:	
