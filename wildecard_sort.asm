@@ -4,29 +4,7 @@
 #	$a1 - number of elements in array
 # More information about bubble sort can be found here:
 # http://en.wikipedia.org/wiki/Quicksort
-
-#Must be shortest code...could be bad code.
-
-wildcard_sort:
-	#li $sp, 0x10FFFFFC
-	#$v0 = $a2 - acummulator
-	#*$v1(size) = $a1 - number of elements in array
-          #*array = $a0 - starting memory address of the array to be sorted
-	#sorting
-	
-	#a0 is array4 aka $t4 in get_array:
-	#a1 is size / numOfElements
-	li $t0, 1
-	li $t1, 1
-	
-
-# You can implement any sorting algorithm you choose.  You can really go two ways with this: implement the simplest algorithm you can think of in as few lines as possible or take on a faster, but more complex algorithm like heapsort.
-# Input arguments:
-#	$a0 - starting memory address of the array to be sorted
-#	$a1 - number of elements in array
-# More information about bubble sort can be found here:
-# http://en.wikipedia.org/wiki/Quicksort
-
+# learn more about counting sort through https://www.youtube.com/watch?v=5rLrRpcBCzo
 wildcard_sort:
 	#TODO
 
@@ -36,17 +14,17 @@ arrayC:
 #	.space 1024
 
 	li $t0, arrayC	# store address
-	# 1) length = range of elements in Array4, index holds number occurances 
-	# 2) numbers <= Array4[i]
+			# 1) length = range of elements in Array4, index holds number occurances 
+			# 2) numbers <= Array4[i]
 
-	#$a0 - starting memory address of the array to be sorted
-	#$a1 - number of elements in array
+#	$a0 - starting memory address of the array to be sorted
+#	$a1 - number of elements in array
 
-	li $t1, 0	# indexed value in Array4 
-	li $t2, 0	# temp used for 2nd number in first loop
-	li $t3, 0	# less/greater comparison result
-	li $t4, 0	# loop counter
-	li $t5, 1 	# determine first loop or not/ can override after first loop of array4
+	li $t1, 0		# indexed value in Array4 
+	li $t2, 0		# temp used for 2nd number in first loop
+	li $t3, 0		# less/greater comparison result
+	li $t4, 0		# loop counter
+	li $t5, 1 		# determine first loop or not/ can override after first loop of array4
 
 	#v0 smallest #
 	#v1 largest  #
@@ -60,10 +38,7 @@ arrayC:
 
 	lw $t1, 0($a0)		# get comparing number
 	addiu $a0, $a0, 4
-	
-#	push $ra
-#	call compare
-#	pop $ra
+
 	j compare
 	nop
 	
@@ -73,42 +48,11 @@ arrayC:
 # ========== Sets arrayC equal to the range of elements in array4 ==========
 	set_arrayC_length:
 
-	#get lowest and largest nums in A[], 
-	#$t6 =lowest; $t7 =highest
-	pop $v0
-	move $t6, $v0
-	push $v0
-	pop $v1
-	move $t7, $v1
-	push $v1
-	
-	subbu $t6, $t7, $t6 #amount between range
-	addiu $t6, $t6, 1 #add 1+ space 
-
-	lui $t7, 4
-	mullo $t6, $t6, $t7
-	addu $t0, $t0, $t7 
-	
-	#push $ra	
-		#use for Sizing same as $a0 =arrayA
-		#lui $t6, 4
-		#mullo $t4, $t4, $t6
-		#addu $t0, $t0, $t6 
-	#or $t4, $t4, $0 #zero out for later use
-	
-	#pop $ra
-	#return
-	#nop
 
 # ========== Increment all of the occurances of numbers from array4 into arrayC ==========
 	increment_element_occurances:
-	
-	beq $a1, $t4 set_arrayC_length	# jump when reaching last element of in Array4
-	nop	
-	addiu $t4, $t4, 1		# increment count by 1
-	
-	
-	
+
+
 	j increment_element_occurances
 	nop
 
@@ -194,6 +138,3 @@ arrayC:
 				
 	return
 	nop
-
-
-
