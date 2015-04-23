@@ -61,13 +61,20 @@ arrayC:
 						
 			compare:
 			beq $t4, $t5 first
-			slt $t3, $t1, $t2			#compare 
-				
-			bne $t3, $0, first_greatest 	#jump if $t1 > $t2
-			nop
-			beq $t3, $0, second_greatest 	#jump if $t1 < $t2
 			nop
 			
+			pop $v1
+			slt $t3, $t1 $v1			#compare
+			push $v1
+			beq $t3, $0, change_maximum 	#jump if $t1 < $v1
+			nop
+
+			pop $v0
+			slt $t3, $t1, $v0			#compare
+			push $v0 	
+			bne $t3, $0, change_minimum 	#jump if $t1 > $v0
+			nop
+		
 			compareReturn:
 		
 			pop $ra
@@ -77,6 +84,7 @@ arrayC:
 			first:	
 			lw $t2, 0($a0)		# get second number
 			addiu $a0, $a0, 4
+			addiu $t4, $t4, 1
 			
 			slt $t3, $t1, $t2 # compare first numbers 1 and 2
 			bne $t3, $0 firstLsecond	#jump if $t1 < $t2
@@ -105,50 +113,29 @@ arrayC:
 
 
 		#========  case where $t1 > $t2	========
-			first_greatest:
-		
-				# compare each number (new) number to both numbers on stack
-			pop $v0	# smallest  in stack
-			pop $v1	# largest in stack
-				# $t2 smallest value
-				# $t1 largest value
-
-			slt $t3, $t1, $v0 	# compare to smallest
-			bne $t3, $0 change_minimum # jump if $t2 < $v0
-			nop
-			move $v1, $t1
-			fg_return:
-			push $v1
-			push $v0
-			j compareReturn
-			nop
+			
 			
 			change_minimum:
+			pop $v0
+
 			move $v0, $t1
-			j fg_return #	where $t2 > $v0
+
+			push $v0
+			j compareReturn #	where $t2 > $v0
 			nop
 			
 		#========case where $t1 < $t2	========
-			second_greatest:
+			change_maximum:
 			# compare each number (new) number to both numbers on stack
-			pop $v0	# smallest  in stack
-			pop $v1	# largest in stack
-				# $t2 smallest value
-				# $t1 largest value
-
-			slt $t3, $t1, $v0 	# compare to smallest
-			bne $t3, $0 change_minimum1 # jump if $t2 < $v0
-			nop
+			pop $v0			
+			pop $v1	# getting largest in stack
+			
 			move $v1, $t1
-			fg_return1:
-			push $v1
-			push $v0
+			
+			pop $v1
+			pop $v0
 			j compareReturn
 			nop
-			
-			change_minimum1:
-			move $v0, $t1
-			j fg_return1 	#	where $t2 > $v0
-			nop
+				
 	return
 	nop
