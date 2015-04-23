@@ -50,42 +50,42 @@ arrayC:
 	#get lowest and largest nums in A[], 
 	#$t6 =lowest; $t7 =highest
 	pop $v0
-	move $t6, $v0
-	push $v0
 	pop $v1
+	move $t6, $v0
 	move $t7, $v1
 	push $v1
+	push $v0
 	
-	subbu $t6, $t7, $t6 #amount between range
+	subu $t6, $t7, $t6 #amount between range
 	addiu $t6, $t6, 1 #add 1+ space 
 	
-	lui $t7, 4
+	li $t7, 4
 	mullo $t6, $t6, $t7 #4 for each number in range
-	addu $t0, $t0, $t7 #make space for the range
+	addu $t0, $t0, $t6 #make space for the range
 	#IMPORTANT dont do 0 +=1; its lowestNumIndex +=1 saves range memory waste	
 	
 	#Set zeros in every index location
-	li $t4, 0
-	li $t6, 0
+#	li $t4, 0
+#	li $t6, 0
 	
-	set_Zeros_in_arrayC:
+#	set_Zeros_in_arrayC:
 
 	#C[n]; get location C[n] & place zero '0' into it
 	#start at $t4 = 0 & $t6 will hold addresses
-	move $t6, $t4
-	sll $t6, $t6, 2 	#multiply by 4; make space for element
-	addu $t6, $t6, $t0 	#address for element in arrayC
+#	move $t6, $t4
+#	sll $t6, $t6, 2 	#multiply by 4; make space for element
+#	addu $t6, $t6, $t0 	#address for element in arrayC
 		#lw $t7, 0($t7) #actual data; element
-	sw $0, 0($t6) 	#stored zero in address
-	addiu $t4, $t4, 1		# increment count by 1
+#	sw $0, 0($t6) 	#stored zero in address
+#	addiu $t4, $t4, 1		# increment count by 1
 
-	bne $a1, $t4 set_Zeros_in_arrayC # continue when reaching last element of in arrayC
-	nop
+#	bne $a1, $t4 set_Zeros_in_arrayC # continue when reaching last element of in arrayC
+#	nop
 	#reset t5-t7
-	li $t4, 0
-	li $t5, 0
-	li $t6, 0
-	li $t7, 0
+#	li $t4, 0
+#	li $t5, 0
+#	li $t6, 0
+#	li $t7, 0
 	
 	#push $ra	
 		#use for Sizing same as $a0 =arrayA
@@ -102,7 +102,7 @@ arrayC:
 # ========== Increment all of the occurances of numbers from array4 into arrayC ==========
 
 	move $t6, $a1 #array4 numElements aka size
-	li $t7, 1
+#	li $t7, 1
 	increment_element_occurances:
 	
 	#element
@@ -112,7 +112,7 @@ arrayC:
 	#$a1 - size
 	
 	#A[i]=n; i=last=A[]size-1
-	subu $t6, $t6, $t7 #array4 size-1
+	#subu $t6, $t6, $t7 #array4 size-1
 	#n of A[i]=n
 	sll $t6, $t6, 2 #multiply by 4; make space for element
 	addu $t6, $t6, $a0 #address for element in array4
